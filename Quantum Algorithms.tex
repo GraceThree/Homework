@@ -1,0 +1,79 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{microtype}
+\usetikzlibrary{quantikz}
+
+\author{Grace Unger}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\author{Grace Unger}
+\title{Quantum Algorithms Homework}
+\def\NN{\mathbb{N}}
+\def\ZZ{\mathbb{Z}}
+\def\RR{\mathbb{R}}
+\def\QQ{\mathbb{Q}}
+\def\CC{\mathbb{C}}
+\def\KK{\mathbb{K}}
+\def\note{\text{NOT}}
+
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\R{\mathbb{R}}
+\def\Q{\mathbb{Q}}
+\def\C{\mathbb{C}}
+\def\K{\mathbb{K}}
+
+
+\def\cA{\mathcal{A}}
+\def\cB{\mathcal{B}}
+\def\cC{\mathcal{C}}
+\def\cF{\mathcal{F}}
+\def\cH{\mathcal{H}}
+\def\cL{\mathcal{L}}really
+\def\cN{\mathcal{N}}
+\def\cO{\mathcal{O}}
+\def\cP{\mathcal{P}}
+\def\cR{\mathcal{R}}
+\def\cS{\mathcal{S}}
+
+\def\ee{\varepsilon}
+\def\ii{\mathfrak{i}}
+\newcommand{\mb}[1]{\ensuremath{\mathbf{ #1 }}}
+\newcommand{\norm}[1]{\ensuremath{\left\| #1\right\| }}
+\newcommand{\enorm}[1]{\ensuremath{|\!|\!| #1|\!|\!| }}
+\newcommand{\ip}[2]{\ensuremath{\langle{ #1}\,,\,{#2}\rangle }}
+\newcommand{\tconp}[1]{(#1)(\overline{#1})}
+\newcommand{\tcon}[1]{#1\overline{#1}}
+\newcommand{\rvline}{\hspace*{-\arraycolsep}\vline\hspace*{-\arraycolsep}}
+
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\supp}{supp}
+\DeclareMathOperator*{\Ker}{Ker}
+\DeclareMathOperator*{\Range}{Im}
+\DeclareMathOperator*{\spn}{span}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+
+\begin{itemize}
+    \item[1)] Draw the $n$-variable Deustch Oracle circuit.
+    It is clear to see that this is given by:
+
+    \begin{quantikz}
+        \lstick{\ket{0}} &\gate{H} \qwbundle[alternate=3]{}  &
+         \ctrlbundle{1} & \gate{H} \qwbundle[alternate=3]{} & \meter{}\qwbundle[alternate=3]{} \\
+        \lstick{\ket{1}}& \gate{H} \qw &
+         \gate{U_f} & \gate{H} \qw &\meter{}
+        \end{quantikz}
+
+    where the input $\ket{0}$ is understood to mean $\ket{0}^{\otimes n}, $ and $U_f$ is the function to be tested.
+\end{itemize}
+\end{document}
