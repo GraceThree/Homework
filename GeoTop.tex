@@ -103,13 +103,12 @@
 
       This means that interchanging $x$ and $y$ does not change the number of closed curves of the diagram, and so it does not change the trace. It remains to show that the trace is nondegenerate when $A$ is not a root of unity.\smallskip
 
-      To see this, suppose that for some $x\neq 0$, we have $\operatorname*{tr}(xy) = 0$ for all $y\in TL_n.$
+      This is equivalent to showing that the Kauffman bracket is nonvanishing. But, as Lickorish notes, every diagram is a multiple of the empty diagram, and none of the terms can vanish if $A$ is not a root of unity. Therefore the Kauffman bracket is nonvanishing as well, so the form is nondegenerate. 
     \end{proof}
     \item Prove that the signature of a linking matrix of a framed link is not changed by K2 moves.
     \begin{proof}
       Suppose that we are doing a K2 move by blowing up the $i$th component around the $j$th component of a link. This affects the linking matrix by adding the $j$th column and row to the $i$th column and row, respectively.\footnote{From Dr Tubbenhauer's notes https://www.dtubbenhauer.com/slides/geotop2022/20-linking-matrix.pdf} Let $S_{pq}$ be the matrix so that $s_{pq} = 1$ when $(p,q) =(i,j)$ or $i=j$ and $s_{pq} = 0$ otherwise. We note that $S^*_{pq}$ is similar but with $s_{ji} =1$ instead. Then if $L$ is the linking matrix, $LS_{ij}$ is the matrix $L$ but with the $j$th row added to the $i$th row. Similarly, $S_{ij}^*L$ is the same matrix with the $j$ column added to the $i$th row. Together, this means that $S_{ij}^*LS_{ij}$ is the new linking matrix. Since $S_{ij}$ is clearly nonsingular, by Sylvester's law of intertia, $S_{ij}^*LS_{ij}$ and $L$ have the same signature. In other words, the K2 move preserves signature. 
     \end{proof}
-    \pagebreak
     \item Suppose that $D$ is the 3 crossing diagram of the trefoil and let $M$ be the manifold defined by this surgery diagram with coefficient $1.$ Calculate $\cI_A(M)$ with $A = e^{\pi i/10}.$
       \begin{proof}
       We calculate this as $\cI_A(M) = \langle\mu\omega\rangle_{3_1}\langle\mu\omega\rangle_{U-}^\sigma\mu.$ The trefoil has framing $\pm 1$ depending on chirality. Here, we take a right-handed trefoil with framing $1$, so the linking matrix is the identity which has signature $1.$\smallskip
@@ -120,13 +119,129 @@
       \[\omega = \Delta_0\alpha^0 + (\Delta_1-2\Delta_3)\alpha^1 + \Delta_2\alpha^2+\Delta_3\alpha^3.\]
       We then calculate $\langle\mu\omega\rangle_{3_1}$ linearly. First, $\langle \mu\Delta_0\alpha^0\rangle = 0$ as the empty diagram. Similarly, $\mu(\Delta_1-2\Delta_3)\langle\alpha\rangle = \mu(\Delta_1-2\Delta_3)\langle 3_1\rangle$ the Kaufman bracket of $3_1.$ This is known to be given by $\langle 3_1 \rangle = -A^5-A^{-3}-A^{-7}.$
       \end{proof}
-    \item Show that \[(R\otimes I)(I\otimes R)(R\otimes I) = (I\otimes R)(R\otimes I)(I\otimes R)\] where \[R = (I\otimes F_d)C_{X,d}^2(I\otimes F^*_d).\]
+    \item Show that \[(R\otimes I_4)(I\otimes R)(R\otimes I_4) = (I_4\otimes R)(R\otimes I_4)(I_4\otimes R)\] where \[R = (I\otimes F_d)C_{X,d}^2(I\otimes F^*_d).\]
       Also, show that $R$ is diagonal. 
       \begin{proof}
-        That $R$ is diagonal is immediate - since $I$ and $F_d$ are diagonal, so is their tensor product. Also that must be shown is that $F_dX_d$ is diagonal. But $X_d$ is circulant by construction, and so the discrete fourier transform $F_d$ automatically diagonalizes it. This means that $(I\otimes F_d)C_{X,d}$ is also diagonal because is it block diagonal with nonzero entries consisting only of diagonal matrices, and so $R$ will be as well.\smallskip
+        That $R$ is diagonal is immediate - since $I$ and $F_d$ are diagonal, so is their tensor product. Also that must be shown is that $F_dX_d$ is diagonal. But $X_d$ is circulant by construction, and so the discrete fourier transform $F_d$ automatically diagonalizes it. This means that $(I\otimes F_d)C_{X,d}$ is also diagonal because is it block diagonal with nonzero entries consisting only of diagonal matrices, and so $R$ will be as well. Clearly, swapping the two qubits doesn't change this.\smallskip
 
-
+        From David's paper, we know that we can write $R$ specifically as \[R = \begin{pmatrix}
+          I & 0 & 0 & \dots & 0\\
+          0 & F_dX_dF_d^* & 0 & \dots & 0\\
+          0 & 0 & I & \dots & 0\\
+          \vdots & \vdots &\vdots & \ddots & \vdots\\
+          0 & 0 & 0 & \dots & I
+        \end{pmatrix}\]
+        Then when we expand, we get:
+        \begin{align*}
+          (R\otimes I_4) &= \begin{pmatrix} 
+            I\otimes I_4 & 0 & 0 & \dots & 0\\
+            0 & F_dX_dF_d^*\otimes I_4 & 0 &\dots & 0\\
+            0 & 0 & I\otimes I_4 & \dots & 0\\
+            \vdots & \vdots &\vdots &\ddots & \vdots\\
+            0 & 0 & 0 & \dots & I\otimes I_4
+          \end{pmatrix}\\
+          (I_4\otimes R) &= \begin{pmatrix}
+            R & 0 & 0 & 0\\0 & R & 0 & 0\\
+            0 & 0 & R & 0\\0 & 0 &0  &R
+          \end{pmatrix}
+        \end{align*}
+        Now, we have that $\operatorname*{rank}R = d^2$. Assuming that $d\ge2,$ let $T$ be $d^2\otimes d^2$ diagonal submatrix of $R\otimes I_4$ so that \[(I_4\otimes R)(R\otimes I_4) = \begin{pmatrix}
+          RT & 0 & 0 & 0\\
+          0 & R & 0 & 0\\
+          0 & 0 & R & 0\\
+          0 & 0 & 0 & R
+        \end{pmatrix}\]
+        where the lower diagonal blocks are just $R$ because all of the diaganal elements after the $2d$th term is $1.$ Explicitly then we get
+        \begin{align*}
+          T &= \begin{pmatrix}
+            I\otimes I_4 & 0 & 0 & \dots & 0\\
+            0 & F_dX_dF_x^*\otimes I_4 & 0 &\dots & 0\\
+            0 & 0  & 1 & \dots & 0\\
+            \vdots & \vdots & \vdots & \ddots & 0\\
+            0 & 0 & 0 &\dots & 1
+          \end{pmatrix}
+        \end{align*}
+        Now, since we took $d\ge 2,$ note that the first $4d$ diagonal terms of this matrix are $1$. But after the $2d+1$st diagonal term of $R,$ all the terms are $1.$ This means that we can write 
+        \[RT = \begin{pmatrix}
+          I_d & 0 & 0 &0 & 0 & 0 & \dots & 0\\
+          0 & F_dX_dF_x^* & 0 &0 & 0 & 0 & \dots & 0\\
+          0 & 0 & I_d&0 & 0 & 0 & \dots & 0\\
+          0 & 0 & 0 &I_d & 0 & 0 & \dots & 0\\
+          0 & 0 & 0 &0 & F_dX_dF_x^*\otimes I_4 & 0 & \dots & 0\\
+          0 & 0 & 0 &0 & 0 & 1 & \dots & 0\\
+          \vdots & \vdots & \vdots & \vdots &\vdots & \ddots &\vdots\\
+          0 & 0 & 0 & 0  & 0 & \dots & 1
+        \end{pmatrix}\] 
+        Thankfully, the lower $3d^2$ terms of the tensor products are preseved throughout, so we only need to pay attention to $RT$. Now, we can compute the full products, taking advantage of diagonal matrices commuting:
+        \begin{align*}
+          (I_4\otimes R)^2(R\otimes I_4) &= \begin{pmatrix}
+            R^2T & 0 & 0 &0\\
+            0 & R^2 & 0 & 0\\
+            0 & 0 & R^2 & 0\\
+            0 & 0 & 0 & R^2
+          \end{pmatrix}\\
+          (R\otimes I_4)^2(I_4\otimes R) &= \begin{pmatrix}
+            RT & 0 & 0 & 0\\
+            0 & R & 0 & 0\\
+            0 & 0 & R & 0\\
+            0 & 0 & 0 & R
+          \end{pmatrix}\begin{pmatrix} 
+            I\otimes I_4 & 0 & 0 & \dots & 0\\
+            0 & F_dX_dF_d^*\otimes I_4 & 0 &\dots & 0\\
+            0 & 0 & I\otimes I_4 & \dots & 0\\
+            \vdots & \vdots &\vdots &\ddots & \vdots\\
+            0 & 0 & 0 & \dots & I\otimes I_4
+          \end{pmatrix}
+        \end{align*}
+        As mentioned, we only need to focus on the first $d^2$ terms here, and using the construction of $RT$ we have above, this becomes:
+        \begin{align*}
+          &\,\begin{pmatrix}
+            I_d & 0 & 0 &0 & 0 & 0 & \dots & 0\\
+            0 & F_dX_dF_x^* & 0 &0 & 0 & 0 & \dots & 0\\
+            0 & 0 & I_d&0 & 0 & 0 & \dots & 0\\
+            0 & 0 & 0 &I_d & 0 & 0 & \dots & 0\\
+            0 & 0 & 0 &0 & (F_dX_dF_x^*\otimes I_4)^2 & 0 & \dots & 0\\
+            0 & 0 & 0 &0 & 0 & 1 & \dots & 0\\
+            \vdots & \vdots & \vdots & \vdots &\vdots & \ddots &\vdots\\
+            0 & 0 & 0 & 0  & 0 & \dots & 1
+          \end{pmatrix}\\
+          &=\begin{pmatrix}
+            I_d & 0 & 0 &0 & 0 & 0 & \dots & 0\\
+            0 & F_dX_dF_x^* & 0 &0 & 0 & 0 & \dots & 0\\
+            0 & 0 & I_d&0 & 0 & 0 & \dots & 0\\
+            0 & 0 & 0 &I_d & 0 & 0 & \dots & 0\\
+            0 & 0 & 0 &0 & (F_dX_dF_x^*)^2\otimes I_4 & 0 & \dots & 0\\
+            0 & 0 & 0 &0 & 0 & 1 & \dots & 0\\
+            \vdots & \vdots & \vdots & \vdots &\vdots & \ddots &\vdots\\
+            0 & 0 & 0 & 0  & 0 & \dots & 1
+          \end{pmatrix}\\
+          &= R^2T.
+        \end{align*}
+        Therefore, \[(R\otimes I_4)^2(I_4\otimes R) = \begin{pmatrix}
+          R^2T & 0 & 0 &0\\
+          0 & R^2 & 0 & 0\\
+          0 & 0 & R^2 & 0\\
+          0 & 0 & 0 & R^2
+        \end{pmatrix}\]
+        so this does indeed satisfy the Yang-Baxter equations.
       \end{proof}
+      \item Show that $R$ satisfies the algebraic YBEs exactly when $RP$ it satisfies the brain YBEs.
+      \begin{proof}
+        For convenience we recall the algebraic YBEs:
+        \begin{align*}
+          R_{12} &= (R\otimes I)\\
+          R_{13} & = (I\otimes P)(R\otimes I)(I\otimes P)\\
+          R_{23} &= (I\otimes R)\\
+          R_{12}R_{13}R_{23} &= R_{23}R_{13}R_{12}.
+        \end{align*}
+        and the braid YBE: \[(RP\otimes I)(I\otimes RP)(RP\otimes I) = (I\otimes RP)(RP\otimes I)(I\otimes RP).\]
+        Suppose that $RP$ satisfies the braid $YBE.$ Then, since $R$ and $P$ have the same shape, we can use the identity $(A\otimes B)(C\otimes D) = (AC)\otimes (BD)$ and the corrolary $(A\otimes I)(I\otimes B) = (A\otimes B)$ to simplify this:
+        \begin{align*}
+          (RP\otimes I)(I\otimes RP)(RP\otimes I) &= (R\otimes I)(P\otimes I)(I\otimes R)(I\otimes P)(R\otimes I)(P\otimes I)\\
+          (I\otimes RP)(RP\otimes I)(I\otimes RP) &=(I\otimes R)(I\otimes P)(R\otimes I)(P\otimes I)(I\otimes R)(I\otimes P)\\
+        \end{align*}
+        $(RP\otimes RP)(I\otimes RP) =  (RP\otimes (RP^2))$, so $(RP\otimes (RP)^2) = ((RP)^2 \otimes RP).$
+      \end{proof} 
 \end{enumerate}
 
 
