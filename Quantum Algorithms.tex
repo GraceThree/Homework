@@ -76,28 +76,41 @@
             \item This is given by:
                 
             \begin{quantikz}
-                \lstick{$I_0$} & \octrl{2}  & \ctrl{1} &  \ctrl{2}\qw & \ctrl{1}\qw & \rstick{$I_0$}\qw\\
-                \lstick{$I_1$}& \octrl{1} & \targ \qw& \ctrl{1}\qw &\targ\qw & \targ \qw &  \ctrl{1}\qw & \targ \qw &\rstick{$C_{new}$}\qw\\
-                \lstick{$0$} & \targ \qw  & \qw & \targ\qw & \qw &\ctrl{-1}\qw & \targ\qw & \ctrl{-1}\qw &\rstick{$Out$}\qw\\
-                \lstick{$C_{old}$} & \ctrl{-1} & \ctrl{-2} & \octrl{-1} & \octrl{-2} & \octrl{-1} & \octrl{-1} & \octrl{-1} & \rstick{$C_{old}$}\qw\\
+                \lstick{{$I_0$}} & \ctrl{3}\qw & \ctrl{1}\qw &\qw & \qw &\ctrl{1}\qw\\
+                \lstick{{$I_1$}} & \ctrl{2}\qw & \targ\qw&\ctrl{2}\qw & \ctrl{1}\qw & \targ\qw\\
+                \lstick{{$C$}}  & \qw &\qw &\ctrl{1}\qw &\targ\qw& \qw\\
+                \lstick{{$\ket{0}$}} & \targ \qw & \qw &\targ\qw & \qw &\qw
             \end{quantikz}\smallskip
-
-            This runs on a single ancilla, at the cost of having to do a CSWAP at the end to get the outputs and carries in the right spots. I don't expect there to be a no ancillae solution since we have a product or sum no matter what.
+            which we may immediately verify is indeed a full adder.
         \end{enumerate}
+
+    \item Implement the $3\times 3$ majority gate in an efficient way.
+
+        We do this by taking a spectral decomposition of the majority function. The attached FPRMSpectrum.py python file takes the Karnaugh map of an arbitrary $n$ variable function and returns the spectrum of minimal cost.\footnote{At a point, I also just wanted to write the script because it's a pretty cool way to look at functions, but there are definitely faster implementations.} The script here minimizes the number of variables with appear in the SOP. Of course, we could also just find this by hand since it's not very hard to compute, but this approach generalizes well. We get a spectrum of 
+        \[\sigma = \begin{pmatrix}
+            0 & 0 & 0 &1 & 0 &1 & 1 & 0
+        \end{pmatrix}\]
+        which is equivalent to $ab\oplus bc \oplus ca.$ Let $V = \sqrt{\text{NOT}}.$ Now, as mentioned in Marek's notes, note that we can write $ab$ with a single ancilla as:\smallskip
+
+        \begin{quantikz}
+            \lstick{$a$} &\ctrl{3} \qw& \targ \qw& \ctrl{3} \qw&\targ\qw& \qw&\qw\\
+            \lstick{$b$} &\qw & \ctrl{-1}\qw & \qw & \ctrl{-1} &\ctrl{2}&\qw\\
+            \lstick{$c$} &\qw &\qw & \qw & \qw & \qw &\qw\\
+            \lstick{$0$} & \gate{V}\qw &\qw & \gate{V}\qw & \qw & \gate{V}\qw & \qw\\
+        \end{quantikz} 
+
+       Obviously this can be done with a single ancilla by using CCNOT as well, but that just abstracts away this lower implementation. By using 3 of these gates together, we obtain the SOP that we wanted. 
+       \smallskip
     \item Realize the functions:
         \begin{enumerate}
             \item $f = ab + a'c$ using reversible logic
-            \item $f = abc + de'f' + a'b'c' + d'f$ with multiplexers
+            \item $f =  abc\oplus de'f' \oplus a'b'c \oplus d'fe$ with reversible logic
         \end{enumerate}
+        The helper script has here been edited to figure calculate based on $n\times n$ toffoli gates costing $2^n-3$ and not gates costing $1.$ \smallskip
         \begin{enumerate}
-            \item We get:
+            \item The above script lets us write this as the fixed polarity ESOP \[a'c\oplus a'b \oplus b,\] which is trivial to implement.
+            \item We get the ESOP:
+             \[a'c\oplus ef \oplus d \oplus df \oplus de \oplus bc\]
         \end{enumerate}
-    \item Implement the 3x3 majority gate in an efficient way.
-    \begin{proof}
-        We do this by taking a spectral decomposition of the majority function. The attached FPRMSpectrum.py python file takes the Karnaugh map of an arbitrary $n$ variable function and returns the spectrum of minimal cost. Of course, we could also just take this since it's not very hard to compute, but this approach generalizes well. We get a spectrum of \[\begin{pmatrix}
-            0 & 0 & 0 &1 & 0 &1 & 1 & 0
-        \end{pmatrix}\]
-        which is equivalent to $ab\oplus bc \oplus ca.$
-    \end{proof}
 \end{enumerate}
 \end{document}
