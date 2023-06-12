@@ -34,20 +34,6 @@ def getSpec(code, table, costs):
     bottom = getSpec(code[1:], newVec[half:], newCosts[half:])
     return (top[0]+bottom[0], top[1] + bottom[1])
 
-def getCost(spec):
-    k = int(math.log(len(spec), 2))
-    cost = 0
-    run = 0
-    curNumTerms = 0
-    while run < len(spec):
-        valsWithLength = sp.special.comb(k, curNumTerms, exact=True)
-        for i in range(0, valsWithLength):
-            if spec[run] == 1:
-                cost += curNumTerms
-            run += 1
-        curNumTerms += 1
-    return cost
-
 # truth table built from karnaugh map traversal
 #Future addition: add way to input an arbitrary K-map and generate this vector
 
@@ -67,7 +53,7 @@ code = ""
 mincost = 2**k
 
 for i in range(0, 2 ** k):
-    costs = [0, 1, 1, 2, 1, 2, 2, 3]
+    costs = [0, 1, 1, 2, 1, 2, 2, 3] #For now, hardcoded to only work with 3 variables, but will extend :)
     s = f'{i:0{k}b}'.format(12)
     [specS, costs] = getSpec(s,tableVec, costs)
     cost = np.dot(costs, specS)
